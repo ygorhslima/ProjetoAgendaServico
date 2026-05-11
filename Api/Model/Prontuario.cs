@@ -11,17 +11,17 @@ public class Prontuario
 
     public int PacienteId { get; set; }
     [ForeignKey("PacienteId")]
-    public Paciente Paciente { get; set; }
+    public required Paciente Paciente { get; set; }
 
     public int MedicoId { get; set; }
     [ForeignKey("MedicoId")]
-    public Medico Medico { get; set; }
+    public required Medico Medico { get; set; }
 
     [Required]
     public DateTime DataRegistro { get; set; }
 
     [Required]
-    public string DescricaoClinica { get; set; }
+    public required string DescricaoClinica { get; set; }
 
-    public string TratamentoPrescrito { get; set; }
+    public required string TratamentoPrescrito { get; set; }
 }

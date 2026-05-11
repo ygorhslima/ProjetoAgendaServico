@@ -1,6 +1,6 @@
 namespace Api.Features.Pacientes.Dto;
 
-record class CreateDto(
+public record class CreateDto(
     int Id,
     string Nome,
     string Cpf,

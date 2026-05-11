@@ -1,6 +1,5 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Internal;
 
 namespace Api.Data;
 
@@ -14,7 +13,7 @@ public static class DataExtensions
     }
     public static void AddClinicaDb(this WebApplicationBuilder builder)
     {
-        var connString = builder.Configuration.GetConnectionString("");
+        var connString = builder.Configuration.GetConnectionString("Clinica");
         var serverVersion = ServerVersion.AutoDetect(connString);
         builder.Services.AddDbContext<ClinicaContext>(options => options.UseMySql(connString, serverVersion));
     }
