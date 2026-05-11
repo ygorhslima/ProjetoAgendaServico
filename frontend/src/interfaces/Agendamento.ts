@@ -1,5 +1,5 @@
-import type Medicos from "./Medicos";
-import type Pacientes from "./Pacientes";
+import type Medicos from "./Medico";
+import type Pacientes from "./Paciente";
 
 export default interface Agendamentos{
     paciente:Pacientes;

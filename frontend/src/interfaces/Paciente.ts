@@ -1,4 +1,4 @@
-export default interface Pacientes{
+export default interface Paciente{
     nome:string;
     cpf:string;
     nascimento:string;

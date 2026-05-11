@@ -1,5 +1,3 @@
-import FormMedicos from "./FormMedicos";
-
 export default function Medicos() {
   const medicos = [
     {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import FormPaciente from "./FormPaciente";
+import type Paciente from "@/interfaces/Paciente";
 
 export default function Pacientes() {
   const pacientes = [
@@ -168,13 +169,34 @@ export default function Pacientes() {
       convenio: "SulAmérica",
     },
   ];
+  const [pacienteSelecionado, setPacienteSelecionado] =
+    useState<Paciente | null>(null);
 
   return (
     <>
+      {pacienteSelecionado && (
+        <FormPaciente
+          paciente={pacienteSelecionado}
+          onClose={() => setPacienteSelecionado(null)}
+        />
+      )}
       <section>
         <div className="header-pages">
           <span>Total de {pacientes.length} pacientes cadastrados</span>
-          <button className="btn_add">+ Novo Paciente</button>
+          <button
+            className="btn_add"
+            onClick={() => {
+              setPacienteSelecionado({
+                nome: "",
+                cpf: "",
+                nascimento: "",
+                convenio: "",
+                telefone: "",
+              });
+            }}
+          >
+            + Novo Paciente
+          </button>
         </div>
 
         <div className="container-table">

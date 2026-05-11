@@ -1,4 +1,4 @@
-export default interface Medicos{
+export default interface Medico{
     nome:string;
     crm:string;
     especialidade:string;
