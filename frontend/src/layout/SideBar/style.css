@@ -1,0 +1,117 @@
+.sidebar {
+    height: 100vh;
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--sidebar-border);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    left: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border-bottom: 1px solid #b2b2b2;
+}
+
+/* Título / Logo no topo da Sidebar */
+.sidebar h1 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-primary-active);
+}
+
+/* Containers de grupos de links */
+.view-link, .add-link {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+/* Label de Seção (Ex: "MENU", "AÇÕES") */
+.section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: black;
+    padding: 15px 25px 5px;
+    text-transform: uppercase;
+}
+
+/* Estilização dos Links */
+.sidebar .link {
+    text-decoration: none;
+    color: var(--sidebar-text);
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+    font-weight: bold;
+}
+.link-icon{
+    width: 30px;
+    height: auto;
+    
+}
+.sidebar .link:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-hover-text);
+    
+}
+
+/* Classe para o Link Ativo/Selecionado */
+.sidebar .link.active {
+    color: var(--color-primary-active);
+    background-color: var(--sidebar-link-active-bg);
+    border-left-color: var(--color-primary); /* Barra azul lateral */
+}
+
+/* Sidebar Fechada */
+.sidebar.closed {
+    margin-left: calc(var(--sidebar-width) * -1);
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Customização da Scrollbar da Sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* --- RESPONSIVIDADE --- */
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        width: 100%;
+        height: auto;
+        max-height: 80vh; /* Não ocupa a tela toda no mobile */
+        top: 60px; /* Abaixo do Header */
+        border-right: none;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .sidebar .link {
+        padding: 15px 10%;
+        justify-content: flex-start;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+}

@@ -1,0 +1,267 @@
+:root {
+  /* Fundo da página: Um cinza bem claro/gelo, exatamente como no print */
+  --background-page: #f8fafc;
+
+  /* Componentes e Header: Branco puro para destacar sobre o fundo gelo */
+  --background-components: #ffffff;
+
+  /* Sidebar: Na imagem é um tom de cinza bem clarinho com hover azulado */
+  --background-sidebar: #ffffff;
+
+  /* Cor de Destaque: O azul usado na barra de progresso e ícones da imagem */
+  --color-primary: #2563eb;
+  --color-primary-active: #1d4ed8;
+
+  /* Texto: Cinza escuro azulado, típico de interfaces modernas de saúde/SaaS */
+  --text-main: #1e293b;
+
+  /* Bônus: Cor da borda sutil que divide o header e os cards na imagem */
+  --border-color: #b2b2b2;
+
+  /*SIDEBAR*/
+  --sidebar-width: 260px;
+  --sidebar-bg: #e1e1e1;
+  --sidebar-text: rgba(0, 0, 0, 0.7);
+  --sidebar-text-hover: #ffffff;
+  --sidebar-link-active-bg: rgba(26, 115, 232, 0.15);
+  --sidebar-hover-text: #7996f0;
+  --sidebar-hover-bg: #eef4ff;
+  --sidebar-border: #b2b2b2;
+
+  /*HEADER*/
+  --background-header: #e1e1e1;
+  --border-header: #b2b2b2;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  width: 100vw;
+}
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*TABELA*/
+section {
+  background-color: #f8f8fc;
+  width: 100%;
+  max-height: 450px;
+  overflow-y: auto;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  position: relative;
+}
+
+.container-table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.header-pages {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-pages span {
+  font-weight: 600;
+  color: #64748b; /* Cinza suave para o texto secundário */
+  font-size: 0.9rem;
+}
+
+.btn_add {
+  background-color: #1d4ed8;
+  border-radius: 20px;
+  padding: 10px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn_add:hover {
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.718);
+}
+
+/*TABELAS*/
+table {
+  width: 97%;
+  max-height: 450px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-collapse: collapse;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+tr:hover {
+  background-color: #f1f4f9;
+  transition: background-color 0.2s;
+}
+
+td {
+  padding: 10px 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+th {
+  background-color: #f8fafc; /* Fundo muito claro para o header */
+  color: #475569; /* Texto cinza escuro, menos agressivo que o preto */
+  padding: 16px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.th-ini {
+  border-top-left-radius: 20px;
+}
+
+.th-fim {
+  border-top-right-radius: 20px;
+}
+
+/* Estilização dos Botões de Ação */
+.btn-edit {
+  color: #2563eb;
+  margin-right: 12px;
+  font-weight: 500;
+}
+
+.btn-delete {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+  text-decoration: underline;
+}
+
+/*ESTILO GERAL PARA FORMULÁRIOS*/
+
+.modal-overlay {
+  position: fixed;
+  /* IMPORTANTE: Começar do topo e esquerda zero para cobrir a tela toda */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+
+  /* Centralização perfeita */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.header-modal {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.container-formInput {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-components);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  height: auto;
+  border: 1px solid black;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: black;
+}
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: black;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+.input-data {
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: black;
+  outline: 1px solid #ffffff33;
+  transition: all 0.3s ease;
+  border: 1px solid #cfd3db;
+}
+
+.btn_add {
+  padding: 10px;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  transition: 0.7s;
+}
+.btn_add:hover {
+  background-color: var(--color-primary-active);
+}

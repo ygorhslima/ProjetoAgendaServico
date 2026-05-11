@@ -1,0 +1,17 @@
+header {
+    display: flex;
+    background-color: var(--background-header);
+    justify-content: space-between;
+    align-items: center; /* Garante alinhamento vertical */
+    padding: 12px 25px; /* Padding levemente mais elegante */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid  var(--border-header);
+    color: black; /* Texto escuro em vez de branco */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Sombra quase imperceptível */
+}
+.div-title{
+    display: flex;
+    gap: 10px;
+}
