@@ -5,9 +5,7 @@ using Api.Features.Pacientes;
 using Api.Features.Prontuarios;
 
 var builder = WebApplication.CreateBuilder(args);
-
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: myAllowSpecificOrigins, policy =>
