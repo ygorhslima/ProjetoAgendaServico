@@ -3,198 +3,55 @@
 import { useState } from "react";
 import FormPaciente from "./FormPaciente";
 import type Paciente from "@/interfaces/Paciente";
+import { useSearch } from "@/context/SearchContext";
+import { useParams } from "next/navigation";
+import { usePacientes } from "@/hooks/usePacientes";
 
 export default function Pacientes() {
-  const pacientes = [
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-
-    {
-      nome: "João Silva",
-      cpf: "123.456.789-00",
-      nascimento: "14/05/1985",
-      telefone: "(11) 98765-4321",
-      convenio: "Unimed",
-    },
-    {
-      nome: "Maria Oliveira",
-      cpf: "987.654.321-00",
-      nascimento: "21/08/1990",
-      telefone: "(11) 91234-5678",
-      convenio: "Bradesco Saúde",
-    },
-    {
-      nome: "Pedro Santos",
-      cpf: "456.789.123-00",
-      nascimento: "09/12/1978",
-      telefone: "(11) 99876-5432",
-      convenio: "Particular",
-    },
-    {
-      nome: "Ana Paula",
-      cpf: "321.654.987-00",
-      nascimento: "29/03/1995",
-      telefone: "(11) 97654-3210",
-      convenio: "SulAmérica",
-    },
-  ];
+  const { searchTerm, setSearchTerm } = useSearch();
+  const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [pacienteSelecionado, setPacienteSelecionado] =
     useState<Paciente | null>(null);
 
+  const {
+    pacientesFiltrados,
+    loading,
+    criarPaciente,
+    excluirPaciente,
+    editarPaciente,
+  } = usePacientes(searchTerm, id);
+
+  if (loading) return <p>Carregando dados de médicos...</p>;
+
+  const handleCriar = () => {
+    setPacienteSelecionado(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditar = (paciente: Paciente) => {
+    setPacienteSelecionado(paciente);
+    setIsModalOpen(true);
+  };
+
+  const handleSalvarPaciente = async (dados: Omit<Paciente, "id">) => {
+    if (pacienteSelecionado) {
+      // Se tem médico selecionado, estamos EDITANDO
+      const { id, ...dadosSemId } = dados as any;
+      return await editarPaciente(pacienteSelecionado.id, dadosSemId);
+    } else {
+      // Se não tem, estamos CRIANDO
+      return await criarPaciente(dados);
+    }
+  };
   return (
     <>
-      {pacienteSelecionado && (
-        <FormPaciente
-          paciente={pacienteSelecionado}
-          onClose={() => setPacienteSelecionado(null)}
-        />
-      )}
       <section>
         <div className="header-pages">
-          <span>Total de {pacientes.length} pacientes cadastrados</span>
-          <button
-            className="btn_add"
-            onClick={() => {
-              setPacienteSelecionado({
-                nome: "",
-                cpf: "",
-                nascimento: "",
-                convenio: "",
-                telefone: "",
-              });
-            }}
-          >
+          <span>
+            Total de {pacientesFiltrados.length} pacientes cadastrados
+          </span>
+          <button className="btn_add" onClick={handleCriar}>
             + Novo Paciente
           </button>
         </div>
@@ -212,7 +69,7 @@ export default function Pacientes() {
               </tr>
             </thead>
             <tbody>
-              {pacientes.map((paciente, index) => (
+              {pacientesFiltrados.map((paciente, index) => (
                 <tr key={index}>
                   <td>{paciente.nome}</td>
                   <td>{paciente.cpf}</td>
@@ -220,8 +77,18 @@ export default function Pacientes() {
                   <td>{paciente.telefone}</td>
                   <td>{paciente.convenio}</td>
                   <td>
-                    <button className="btn-edit">Editar</button>
-                    <button className="btn-delete">Excluir</button>
+                    <button
+                      className="btn-edit"
+                      onClick={() => handleEditar(paciente)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => excluirPaciente(paciente.id)}
+                    >
+                      Excluir
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -229,6 +96,12 @@ export default function Pacientes() {
           </table>
         </div>
       </section>
+      <FormPaciente
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSalvarPaciente}
+        pacienteParaEditar={pacienteSelecionado}
+      />
     </>
   );
 }

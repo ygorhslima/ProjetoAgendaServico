@@ -1,29 +1,68 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Paciente from "@/interfaces/Paciente";
 import { CircleX } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface Props {
-  paciente: Paciente;
+interface FormPacientesProps {
+  isOpen: boolean;
   onClose: () => void;
+  onSave: (dados: any) => Promise<void>;
+  pacienteParaEditar?: Paciente | null;
 }
 
-export default function FormPaciente({ paciente, onClose }: Props) {
-  
-  const [formData, setFormData] = useState({
-    nome: paciente.nome,
-    cpf: paciente.cpf,
-    nascimento: paciente.nascimento,
-    telefone: paciente.telefone,
-    convenio: paciente.convenio,
-  });
+export default function FormPaciente({
+  isOpen,
+  onClose,
+  onSave,
+  pacienteParaEditar,
+}: FormPacientesProps) {
+  const [nome, setNome] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [nascimento, setNascimento] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [convenio, setConvenio] = useState("");
 
+  useEffect(() => {
+    if (pacienteParaEditar) {
+      setNome(pacienteParaEditar.nome || "");
+      setCpf(pacienteParaEditar.cpf || "");
+      setNascimento(pacienteParaEditar.nascimento || "");
+      setTelefone(pacienteParaEditar.telefone || "");
+      setConvenio(pacienteParaEditar.convenio || "");
+    } else {
+      setNome("");
+      setCpf("");
+      setNascimento("");
+      setTelefone("");
+      setConvenio("");
+    }
+  }, [pacienteParaEditar, isOpen]);
+
+  if (!isOpen) {
+    return null;
+  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const dadosPaciente = {
+      nome,
+      cpf,
+      nascimento,
+      telefone,
+      convenio,
+    };
+
+    const sucesso = await onSave(dadosPaciente);
+    if (sucesso) {
+      onClose();
+    }
+  };
   return (
     <div className="modal-overlay">
-      <div className="container-formInput">
+      <form onSubmit={handleSubmit} className="container-formInput">
         <div className="header-modal">
-          <h3>Novo Paciente</h3>
-          <button onClick={onClose} className="btn-close-modal">
+          <h3>{pacienteParaEditar ? "Editar Paciente" : "Novo Paciente"}</h3>
+          <button type="button" onClick={onClose} className="btn-close-modal">
             <CircleX />
           </button>
         </div>
@@ -34,7 +73,8 @@ export default function FormPaciente({ paciente, onClose }: Props) {
           className="input-data"
           maxLength={100}
           required
-          value={formData.nome}
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
         />
 
         <label>CPF</label>
@@ -44,23 +84,8 @@ export default function FormPaciente({ paciente, onClose }: Props) {
           placeholder="000.000.000-00"
           maxLength={14}
           required
-          value={formData.cpf}
-          onChange={(event) => {
-            let value = event.target.value;
-
-            // 1. Remove tudo que não for número
-            value = value.replace(/\D/g, "");
-
-            // 2. Aplica a máscara passo a passo
-            // O limite de caracteres ajuda a não quebrar o regex
-            if (value.length <= 11) {
-              value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Primeiro ponto
-              value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Segundo ponto
-              value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Traço
-            }
-
-            event.target.value = value;
-          }}
+          value={cpf}
+          onChange={(e) => setCpf(e.target.value)}
         />
 
         <label>Data de Nascimento</label>
@@ -68,7 +93,8 @@ export default function FormPaciente({ paciente, onClose }: Props) {
           type="date"
           className="input-data"
           required
-          value={formData.nascimento}
+          value={nascimento}
+          onChange={(e) => setNascimento(e.target.value)}
         />
 
         <label>Telefone</label>
@@ -79,18 +105,25 @@ export default function FormPaciente({ paciente, onClose }: Props) {
           placeholder="(00) 00000-0000"
           maxLength={15}
           required
-          value={formData.nascimento}
-          onChange={(event) => {
-            let value = event.target.value;
-            value = value.replace(/\D/g, "");
-            value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); // Coloca parênteses no DDD
-            value = value.replace(/(\d{5})(\d)/, "$1-$2"); // Coloca hífen após o quinto dígito
-            event.target.value = value;
-          }}
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
         />
 
-        <button className="btn_add">Cadastrar</button>
-      </div>
+        <label>convenio</label>
+        <input
+          name="convenio"
+          type="text"
+          className="input-data"
+          maxLength={15}
+          required
+          value={convenio}
+          onChange={(e) => setConvenio(e.target.value)}
+        />
+
+        <button className="btn_add">
+          {pacienteParaEditar ? "Salvar Alterações" : "Cadastrar"}
+        </button>
+      </form>
     </div>
   );
 }
