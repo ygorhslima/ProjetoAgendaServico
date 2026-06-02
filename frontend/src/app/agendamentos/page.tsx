@@ -1,47 +1,57 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import { useSearch } from "@/context/SearchContext";
+import useAgendamentos from "@/hooks/useAgendamentos";
+import type Agendamentos from "@/interfaces/Agendamento";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 import FormAgendamento from "./FormAgendamento";
 
 export default function Agendamentos() {
-  const agendamentos = [
-    {
-      paciente: "João Silva",
-      medico: "Dr. Carlos Santos",
-      especialidade: "Cardiologia",
-      data: "09/05/2026",
-      hora: "09:00",
-      status: "Agendado",
-    },
-    {
-      paciente: "Maria Oliveira",
-      medico: "Dra. Ana Costa",
-      especialidade: "Pediatria",
-      data: "09/05/2026",
-      hora: "10:30",
-      status: "Agendado",
-    },
-    {
-      paciente: "Pedro Santos",
-      medico: "Dr. Lucas Ferreira",
-      especialidade: "Ortopedia",
-      data: "09/05/2026",
-      hora: "14:00",
-      status: "Realizado",
-    },
-    {
-      paciente: "Ana Paula",
-      medico: "Dra. Beatriz Lima",
-      especialidade: "Dermatologia",
-      data: "10/05/2026",
-      hora: "09:30",
-      status: "Agendado",
-    },
-  ];
+  const { searchTerm, setSearchTerm } = useSearch();
+  const { id } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [AgendamentosSelecionado, setAgendamentosSelecionado] =
+    useState<Agendamentos | null>(null);
+
+  const {
+    agendamentosFiltrados,
+    loading,
+    criarAgendamento,
+    excluirAgendamento,
+    editarAgendamento,
+  } = useAgendamentos(searchTerm, id);
+
+  if (loading) return <p>Carregando dados de agendamentos...</p>;
+
+  const handleCriar = () => {
+    setAgendamentosSelecionado(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditar = (agendamentos: Agendamentos) => {
+    setAgendamentosSelecionado(agendamentos);
+    setIsModalOpen(true);
+  };
+
+  const handleSalvarAgendamentos = async (dados: Omit<Agendamentos, "id">) => {
+    if (AgendamentosSelecionado) {
+      const { id, ...dadosSemId } = dados as any;
+      return await editarAgendamento(AgendamentosSelecionado.id, dadosSemId);
+    } else {
+      // Se não tem, estamos CRIANDO
+      return await criarAgendamento(dados);
+    }
+  };
 
   return (
     <>
       <section>
         <div className="header-pages">
-          <span>Total de {agendamentos.length} agendamentos</span>
-          <button className="btn_add">+ Novo Agendamento</button>
+          <span>Total de {agendamentosFiltrados.length} agendamentos</span>
+          <button className="btn_add" onClick={handleCriar}>
+            + Novo Agendamento
+          </button>
         </div>
         <div className="container-table">
           <table>
@@ -56,20 +66,28 @@ export default function Agendamentos() {
               </tr>
             </thead>
             <tbody>
-              {agendamentos.map((item, index) => (
+              {agendamentosFiltrados.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.paciente}</td>
-                  <td>{item.medico}</td>
-                  <td>{item.especialidade}</td>
-                  <td>
-                    {item.data} às {item.hora}
-                  </td>
+                  <td>{item.idPaciente.nome}</td>
+                  <td>{item.idMedico.nome}</td>
+                  <td>{item.idMedico.especialidade}</td>
+                  <td>{item.dataehora}</td>
                   <td>
                     <span>{item.status}</span>
                   </td>
                   <td>
-                    <button className="btn-edit">Editar</button>
-                    <button className="btn-delete">Excluir</button>
+                    <button
+                      className="btn-edit"
+                      onClick={() => handleEditar(item)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => excluirAgendamento(item.id)}
+                    >
+                      Excluir
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -77,6 +95,12 @@ export default function Agendamentos() {
           </table>
         </div>
       </section>
+      <FormAgendamento
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSalvarAgendamentos}
+        agendamentoParaEditar={AgendamentosSelecionado}
+      />
     </>
   );
 }

@@ -27,9 +27,6 @@ public class Agendamento
 
     [ForeignKey("IdMedico")]
     public required Medico Medico { get; set; }
-
-    [Required]
-    public required string Especialidade { get; set; }
     
     public DateTime DataEHora { get; set; }
 

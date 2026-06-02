@@ -91,11 +91,18 @@ export default function FormMedicos({
           value={especialidade}
           onChange={(e) => setEspecialidade(e.target.value)}
           required
+          className="input-data"
         >
           <option value="">Selecione</option>
           <option value="Cardiologia">Cardiologia</option>
           <option value="Pediatria">Pediatria</option>
-          <option value="Clínica Médica">Clínica Médica</option>
+          <option value="Ginecologista">Ginecologista</option>
+          <option value="Dermatologia">Dermatologia</option>
+          <option value="Neurologia">Neurologia</option>
+          <option value="Psiquiatria">Psiquiatria</option>
+          <option value="Oftalmologia">Oftalmologia</option>
+          <option value="Otorrinolaringologia">Otorrinolaringologia</option>
+          <option value="Endocrinologia">Endocrinologia</option>
         </select>
 
         <label>Telefone</label>

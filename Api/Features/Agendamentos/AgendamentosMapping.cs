@@ -12,7 +12,6 @@ public static class AgendamentosMapping
             agendamento.Id,
             agendamento.IdPaciente,
             agendamento.IdMedico,
-            agendamento.Especialidade,
             agendamento.DataEHora,
             agendamento.Status
         );
@@ -23,7 +22,6 @@ public static class AgendamentosMapping
             agendamento.Id,
             agendamento.IdPaciente,
             agendamento.IdMedico,
-            agendamento.Especialidade,
             agendamento.DataEHora,
             agendamento.Status
         );
@@ -34,7 +32,6 @@ public static class AgendamentosMapping
         {
             IdPaciente = dto.IdPaciente,
             IdMedico = dto.IdMedico,
-            Especialidade = dto.Especialidade,
             DataEHora = dto.DataEHora,
             Status = dto.Status,
             Paciente = null!,
@@ -45,7 +42,6 @@ public static class AgendamentosMapping
     {
         existingAgendamento.IdPaciente = dto.IdPaciente;
         existingAgendamento.IdMedico = dto.IdMedico;
-        existingAgendamento.Especialidade = dto.Especialidade;
         existingAgendamento.DataEHora = dto.DataEHora;
         existingAgendamento.Status = dto.Status;
         return existingAgendamento;
