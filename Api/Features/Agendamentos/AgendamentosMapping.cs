@@ -43,7 +43,6 @@ public static class AgendamentosMapping
     }
     public static Agendamento ToUpdateDto(this Agendamento existingAgendamento, UpdateDto dto)
     {
-        existingAgendamento.Id = dto.Id;
         existingAgendamento.IdPaciente = dto.IdPaciente;
         existingAgendamento.IdMedico = dto.IdMedico;
         existingAgendamento.Especialidade = dto.Especialidade;

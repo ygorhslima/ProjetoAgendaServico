@@ -43,7 +43,6 @@ public static class ProntuariosMapping
     }
     public static Prontuario ToUpdateDto(this Prontuario existingProntuario, UpdateDto dto)
     {
-        existingProntuario.Id = dto.Id;
         existingProntuario.PacienteId = dto.PacienteId;
         existingProntuario.MedicoId = dto.MedicoId;
         existingProntuario.DataRegistro = dto.DataRegistro;
