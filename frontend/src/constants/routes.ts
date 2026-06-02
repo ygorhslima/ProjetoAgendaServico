@@ -3,5 +3,5 @@ export const ROUTES = {
   PACIENTES: "/pacientes",
   MEDICOS: "/medicos",
   AGENDAMENTOS: "/agendamentos",
-  PRONTUARIOS: "/prontuarios"
+  PRONTUARIOS: "/prontuarios",
 };

@@ -41,7 +41,6 @@ public static class MedicosMapping
     }
     public static Medico ToUpdateDto(this Medico existingMedico, UpdateDto dto)
     {
-        existingMedico.Id = dto.Id;
         existingMedico.Nome = dto.Nome;
         existingMedico.Crm = dto.Crm;
         existingMedico.Especialidade = dto.Especialidade;

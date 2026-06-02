@@ -1,4 +1,4 @@
-"use client"
+"use client";
 /* eslint-disable react-hooks/set-state-in-effect */
 import Medico from "@/interfaces/Medico";
 import { medicosService } from "@/services/medicosService";
@@ -31,7 +31,7 @@ export const useMedicos = (searchTerm: string) => {
     const nomeMedico = (med.nome || "").toLowerCase();
     const crmMedico = (med.crm || "").toLowerCase();
 
-    const matchesSearch = nomeMedico.includes(term) || crmMedico.includes(term); 
+    const matchesSearch = nomeMedico.includes(term) || crmMedico.includes(term);
     return matchesSearch;
   });
 

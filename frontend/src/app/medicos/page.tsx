@@ -1,23 +1,61 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useSearch } from "@/context/SearchContext";
 import useMedicos from "@/hooks/useMedicos";
+import Medico from "@/interfaces/Medico";
 import SearchBar from "@/layout/SearchBar";
 import { useParams } from "next/navigation";
+import FormMedicos from "./FormMedicos";
+import { useState } from "react";
 
 export default function Medicos() {
   const { searchTerm, setSearchTerm } = useSearch();
   const { id } = useParams();
-  const { medicosFiltrados, loading } = useMedicos(searchTerm, id);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [medicoSelecionado, setMedicoSelecionado] = useState<Medico | null>(
+    null,
+  );
+
+  const {
+    medicosFiltrados,
+    loading,
+    criarMedico,
+    excluirMedico,
+    editarMedico,
+  } = useMedicos(searchTerm, id);
 
   if (loading) return <p>Carregando dados de médicos...</p>;
+
+  const handleCriar = () => {
+    setMedicoSelecionado(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditar = (medico: Medico) => {
+    setMedicoSelecionado(medico);
+    setIsModalOpen(true);
+  };
+
+  const handleSalvarMedico = async (dados: Omit<Medico, "id">) => {
+    if (medicoSelecionado) {
+      // Se tem médico selecionado, estamos EDITANDO
+      const { id, ...dadosSemId } = dados as any;
+      return await editarMedico(medicoSelecionado.id, dadosSemId);
+    } else {
+      // Se não tem, estamos CRIANDO
+      return await criarMedico(dados);
+    }
+  };
 
   return (
     <>
       <section>
         <div className="header-pages">
           <span>Total de {medicosFiltrados.length} médicos cadastrados</span>
-          <button className="btn_add">+ Novo Médico</button>
-          <SearchBar onSearch={setSearchTerm} searchTerm={searchTerm}/>
+          <button className="btn_add" onClick={handleCriar}>
+            + Novo Médico
+          </button>
+          <SearchBar onSearch={setSearchTerm} searchTerm={searchTerm} />
         </div>
         <div className="container-table">
           <table>
@@ -44,8 +82,18 @@ export default function Medicos() {
                   <td>{medico.telefone}</td>
                   <td>{medico.email}</td>
                   <td>
-                    <button className="btn-edit">Editar</button>
-                    <button className="btn-delete">Excluir</button>
+                    <button
+                      className="btn-edit"
+                      onClick={() => handleEditar(medico)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => excluirMedico(medico.id)}
+                    >
+                      Excluir
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -53,6 +101,13 @@ export default function Medicos() {
           </table>
         </div>
       </section>
+
+      <FormMedicos
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSalvarMedico}
+        medicoParaEditar={medicoSelecionado}
+      />
     </>
   );
 }
