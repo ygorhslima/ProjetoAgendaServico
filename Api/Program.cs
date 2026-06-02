@@ -6,11 +6,16 @@ using Api.Features.Prontuarios;
 
 var builder = WebApplication.CreateBuilder(args);
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.ConfigureHttpJsonOptions(options => {
+    options.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: myAllowSpecificOrigins, policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:3000")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

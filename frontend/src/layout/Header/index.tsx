@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import ButtonHamburger from "../ButtonHamburger";
 import SearchBar from "../SearchBar";
 import PropsHeader from "./PropsHeader";
 import "./style.css";
+
 export default function Header({ onToggleMenu }: PropsHeader) {
   const pathname: string = usePathname();
-
   const conteudos: any = {
     "/": {
       titulo: "Dashboard",
@@ -31,7 +32,6 @@ export default function Header({ onToggleMenu }: PropsHeader) {
       desc: "Histórico clínico dos pacientes",
     },
   };
-
   const atual = conteudos[pathname] || conteudos["/"];
 
   return (
@@ -43,7 +43,6 @@ export default function Header({ onToggleMenu }: PropsHeader) {
           <p>{atual.desc}</p>
         </div>
       </div>
-      <SearchBar />
     </header>
   );
 }

@@ -2,10 +2,10 @@ import type Medicos from "./Medico";
 import type Pacientes from "./Paciente";
 
 export default interface Agendamentos{
-    paciente:Pacientes;
-    medico:Medicos;
+    id:number;
+    idPaciente:Pacientes;
+    idMedico:Medicos;
     especialidade:string;
-    data:string;
-    hora:string;
-    status:string;
+    dataehora:string;
+    status:number;
 }

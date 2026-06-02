@@ -1,41 +1,23 @@
+"use client";
+import { useSearch } from "@/context/SearchContext";
+import useMedicos from "@/hooks/useMedicos";
+import SearchBar from "@/layout/SearchBar";
+import { useParams } from "next/navigation";
+
 export default function Medicos() {
-  const medicos = [
-    {
-      nome: "Dr. Carlos Santos",
-      crm: "CRM/SP 123456",
-      especialidade: "Cardiologia",
-      telefone: "(11) 98888-7777",
-      email: "carlos@clinica.com",
-    },
-    {
-      nome: "Dra. Ana Costa",
-      crm: "CRM/SP 234567",
-      especialidade: "Pediatria",
-      telefone: "(11) 97777-6666",
-      email: "ana@clinica.com",
-    },
-    {
-      nome: "Dr. Lucas Ferreira",
-      crm: "CRM/SP 345678",
-      especialidade: "Ortopedia",
-      telefone: "(11) 96666-5555",
-      email: "lucas@clinica.com",
-    },
-    {
-      nome: "Dra. Beatriz Lima",
-      crm: "CRM/SP 456789",
-      especialidade: "Dermatologia",
-      telefone: "(11) 95555-4444",
-      email: "beatriz@clinica.com",
-    },
-  ];
+  const { searchTerm, setSearchTerm } = useSearch();
+  const { id } = useParams();
+  const { medicosFiltrados, loading } = useMedicos(searchTerm, id);
+
+  if (loading) return <p>Carregando dados de médicos...</p>;
 
   return (
     <>
       <section>
         <div className="header-pages">
-          <span>Total de {medicos.length} médicos cadastrados</span>
+          <span>Total de {medicosFiltrados.length} médicos cadastrados</span>
           <button className="btn_add">+ Novo Médico</button>
+          <SearchBar onSearch={setSearchTerm} searchTerm={searchTerm}/>
         </div>
         <div className="container-table">
           <table>
@@ -50,7 +32,7 @@ export default function Medicos() {
               </tr>
             </thead>
             <tbody>
-              {medicos.map((medico, index) => (
+              {medicosFiltrados.map((medico, index) => (
                 <tr key={index}>
                   <td>{medico.nome}</td>
                   <td>{medico.crm}</td>
