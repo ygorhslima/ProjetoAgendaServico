@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react-hooks/set-state-in-effect */
 import Agendamentos from "@/interfaces/Agendamento";
-import { agendamentosServices } from "@/services/agendamentosService";
+import { agendamentosService } from "@/services/agendamentosService";
 import { useEffect, useState } from "react";
 import useMedicos from "./useMedicos";
 import { usePacientes } from "./usePacientes";
@@ -17,13 +17,14 @@ export const useAgendamentos = (searchTerm: string, id?: string | string[]) => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const data = await agendamentosServices.getAll(); // Supondo que retorne [{ idPaciente: 1, ... }]
-      
+      const data = await agendamentosService.getAll(); // Supondo que retorne [{ idPaciente: 1, ... }]
+
       // Transformamos os IDs em objetos completos para a tabela funcionar
       const hydrated = (data || []).map((ag: any) => ({
         ...ag,
-        idPaciente: pacientes.find(p => p.id === ag.idPaciente) || ag.idPaciente,
-        idMedico: medicos.find(m => m.id === ag.idMedico) || ag.idMedico,
+        idPaciente:
+          pacientes.find((p) => p.id === ag.idPaciente) || ag.idPaciente,
+        idMedico: medicos.find((m) => m.id === ag.idMedico) || ag.idMedico,
       }));
 
       setAgendamentos(hydrated);
@@ -59,20 +60,20 @@ export const useAgendamentos = (searchTerm: string, id?: string | string[]) => {
       return;
     }
     try {
-      await agendamentosServices.delete(id);
+      await agendamentosService.delete(id);
       setAgendamentos((prev) => prev.filter((a) => a.id !== id));
     } catch (error) {
       console.error("Erro ao remover um agendamento", error);
       alert("Não foi possível excluir o agendamento");
     }
   };
-  
+
   const editarAgendamento = async (
     id: number,
     dadosAtualizados: Partial<Agendamentos>,
   ) => {
     try {
-      const responseUpdate: Response = await agendamentosServices.update(
+      const responseUpdate: Response = await agendamentosService.update(
         id,
         dadosAtualizados,
       );
@@ -94,7 +95,7 @@ export const useAgendamentos = (searchTerm: string, id?: string | string[]) => {
   ) => {
     try {
       setLoading(true);
-      const responseCreate = await agendamentosServices.create(novoAgendamento);
+      const responseCreate = await agendamentosService.create(novoAgendamento);
 
       if (responseCreate) {
         await loadData();

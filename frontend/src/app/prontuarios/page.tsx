@@ -3,27 +3,7 @@ import "./style-prontuarios.css";
 import { FcDocument } from "react-icons/fc";
 
 export default function Prontuarios() {
-  const prontuarios = [
-    {
-      paciente: "João Silva",
-      medico: "Dr. Carlos Santos",
-      dataRegistro: "07 de maio de 2026",
-      diagnostico: "Hipertensão arterial",
-      descricaoClinica:
-        "Paciente apresenta dor no peito e falta de ar. Pressão arterial: 140/90 mmHg.",
-      tratamentoPrescrito: "Prescrição de Losartana 50mg 1x ao dia",
-    },
-    {
-      paciente: "Maria Oliveira",
-      medico: "Dra. Ana Costa",
-      dataRegistro: "06 de maio de 2026",
-      diagnostico: "Infecção viral das vias aéreas superiores",
-      descricaoClinica:
-        "Criança com febre de 38.5°C, tosse seca e congestão nasal há 2 dias.",
-      tratamentoPrescrito: "Repouso, hidratação e antitérmico se necessário",
-    },
-  ];
-
+  
   const styleDiv1 = {
     backgroundColor: "#F8F8FC",
     width: "100%",
