@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 interface CrudService<T> {
   getAll: () => Promise<T[]>;
   delete: (id: number) => Promise<any>;
-  update: (id: number, data: Partial<T>) => Promise<Response>;
+  update: (id: number, data: Partial<T>) => Promise<boolean | Response>;
   create: (data: Omit<T, "id">) => Promise<any>;
 }
 
@@ -71,12 +71,15 @@ export function useGenericCrud<T extends { id: number }>({
 
   const updateItem = async (id: number, dadosAtualizados: Partial<T>) => {
     try {
-      const responseUpdate: Response = await service.update(
+      const result = await service.update(
         id,
         dadosAtualizados,
       );
 
-      if (responseUpdate.ok) {
+      // Verifica se o resultado é um Response (checa .ok) ou um booleano direto
+      const isSuccess = result instanceof Response ? result.ok : !!result;
+
+      if (isSuccess) {
         await loadData();
         return true;
       }
