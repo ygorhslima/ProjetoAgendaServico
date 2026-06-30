@@ -29,8 +29,8 @@ export default function FormProntuarios({
 
   useEffect(() => {
     if (prontuariosParaEditar) {
-      setIdPaciente(String(prontuariosParaEditar.pacienteid?.id));
-      setIdMedico(String(prontuariosParaEditar.medicoid?.id));
+      setIdPaciente(String(prontuariosParaEditar.pacienteid?.nome));
+      setIdMedico(String(prontuariosParaEditar.medicoid?.nome));
       setDataRegistro(prontuariosParaEditar.dataregistro);
       setDescricaoClinica(prontuariosParaEditar.descricaoclinica);
       setTratamentoPrescrito(prontuariosParaEditar.tratamentoprescrito);
